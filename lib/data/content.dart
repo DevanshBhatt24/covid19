@@ -29,15 +29,18 @@ class content extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: 10,
+          height: 20,
         ),
         Text(
           '$number',
-          style: TextStyle(fontSize: 40, color: color!),
+          style: TextStyle(fontSize: 16, color: color!),
+        ),
+        SizedBox(
+          height: 10,
         ),
         Text(
           tile!,
-          style: ksubtextStyle,
+          style: ksubtextStyle.copyWith(fontWeight: FontWeight.w600),
         )
       ],
     );

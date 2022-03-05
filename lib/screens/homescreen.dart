@@ -1,13 +1,21 @@
+import 'package:covid19/data/navigationoption.dart';
 import 'package:covid19/screens/infoscrren.dart';
 import 'package:flutter/material.dart';
 import 'package:covid19/data/constants.dart';
-import 'package:covid19/data/contentcontainer.dart';
-import 'package:covid19/data/dropdown.dart';
 import 'package:covid19/data/mapcontainer.dart';
 import 'package:covid19/data/navbarcontain.dart';
-import 'package:covid19/data/update.dart';
+import 'global.dart';
+import 'country.dart';
 
-class Homescreen extends StatelessWidget {
+enum Naviagtionstatus { Global, Country }
+
+class Homescreen extends StatefulWidget {
+  @override
+  State<Homescreen> createState() => _HomescreenState();
+}
+
+class _HomescreenState extends State<Homescreen> {
+  Naviagtionstatus? nav = Naviagtionstatus.Global;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +28,29 @@ class Homescreen extends StatelessWidget {
               tap: () => Navigator.push(context,
                   MaterialPageRoute(builder: (builder) => InfoScreen())),
             ),
-            doropdown(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                navigationoption(
+                  onselected: () {
+                    setState(() {
+                      nav = Naviagtionstatus.Global;
+                    });
+                  },
+                  selected: nav == Naviagtionstatus.Global,
+                  title: "Global",
+                ),
+                navigationoption(
+                  onselected: () {
+                    setState(() {
+                      nav = Naviagtionstatus.Country;
+                    });
+                  },
+                  selected: nav == Naviagtionstatus.Country,
+                  title: "Country",
+                )
+              ],
+            ),
             SizedBox(
               height: 30,
             ),
@@ -28,14 +58,11 @@ class Homescreen extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 children: [
-                  updates(),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  contentcontainer(),
-                  SizedBox(
-                    height: 20,
-                  ),
+                  AnimatedSwitcher(
+                      duration: Duration(microseconds: 250),
+                      child: nav == Naviagtionstatus.Global
+                          ? GLobal()
+                          : Country()),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
